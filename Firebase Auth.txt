@@ -1,0 +1,56 @@
+-Bash install
+pip install firebase-admin
+pip install pyrebase
+
+
+import firebase_admin
+from firebase_admin import credentials
+from pyrebase import initialize_app
+from flask import Flask, render_template, request, redirect, url_for
+from flask_security import Security, SQLAlchemyUserDatastore, User, Role
+from flask_security.forms import RegisterForm
+from flask_sqlalchemy import SQLAlchemy
+
+# Initialize Firebase
+firebase_credentials = credentials.Certificate('path/to/your/firebase/credentials.json')
+firebase_admin.initialize_app(firebase_credentials)
+firebase = initialize_app('path/to/your/firebase/config.json')
+
+# Initialize Flask
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your-secret-key'  # Set up your secret key
+
+# Initialize Flask-Security
+user_datastore = SQLAlchemyUserDatastore(firebase.auth(), User, Role)
+security = Security(app, user_datastore)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data)
+        user_datastore.create_user(user)
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = user_datastore.get_user(request.form['username'])
+        if user and user.check_password(request.form['password']):
+            login_user(user)
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid username or password')
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run(debug=True)

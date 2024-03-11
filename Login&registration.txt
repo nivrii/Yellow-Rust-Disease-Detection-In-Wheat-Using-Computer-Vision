@@ -1,0 +1,69 @@
+User Registration
+
+from flask import Flask, render_template, request, redirect, url_for
+from flask_security import Security, SQLAlchemyUserDatastore, User, Role
+from flask_security.forms import RegisterForm
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['DATABASE_URI'] = 'sqlite:////tmp/test.db'  # Set up your database URI
+app.config['SECRET_KEY'] = 'your-secret-key'  # Set up your secret key
+db = SQLAlchemy(app)
+
+# Define your User and Role models
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
+# Initialize Flask-Security
+security = Security(app, user_datastore)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data)
+        user_datastore.create_user(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+# Run the application
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)
+
+User Login
+
+from flask import Flask, render_template, request, redirect, url_for
+from flask_security import Security, SQLAlchemyUserDatastore, User, Role
+from flask_security.forms import RegisterForm
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['DATABASE_URI'] = 'sqlite:////tmp/test.db'  # Set up your database URI
+app.config['SECRET_KEY'] = 'your-secret-key'  # Set up your secret key
+db = SQLAlchemy(app)
+
+# Define your User and Role models
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
+# Initialize Flask-Security
+security = Security(app, user_datastore)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data)
+        user_datastore.create_user(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+# Run the application
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)
