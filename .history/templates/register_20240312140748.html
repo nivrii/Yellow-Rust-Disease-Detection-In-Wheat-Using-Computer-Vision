@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <!-- Add Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  </head>
+  <body>
+    <h1>Register</h1>
+    <form id="register-form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+      <br />
+      <button type="submit">Register</button>
+    </form>
+    <script>
+      import { initializeApp } from "firebase/app";
+      import { getAnalytics } from "firebase/analytics";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDmkus00PV-fWybrMi_B1LSa4H09LL7_dE",
+        authDomain: "yellow-rust-disease-detection.firebaseapp.com",
+        projectId: "yellow-rust-disease-detection",
+        storageBucket: "yellow-rust-disease-detection.appspot.com",
+        messagingSenderId: "1072837844157",
+        appId: "1:1072837844157:web:affd83d438228cd1426bd4",
+        measurementId: "G-1E72X6DP9C",
+      };
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      const auth = firebase.auth();
+
+      document
+        .getElementById("register-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(function (userCredential) {
+              const user = userCredential.user;
+              alert("Registration Successful!");
+              window.location.href = "{{url_for('index')}}";
+            })
+            .catch(function (error) {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert("Error: " + errorMessage);
+            });
+        });
+    </script>
+  </body>
+</html>

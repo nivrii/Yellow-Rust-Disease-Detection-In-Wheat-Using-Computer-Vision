@@ -97,13 +97,38 @@
         </div>
 
         <head>
-          <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-          <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-          <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-         
+          <script>
+              addEventListener(
+                "load",
+                function () {
+                  setTimeout(hideURLbar, 0);
+                },
+                false
+              );
+
+              function hideURLbar() {
+                window.scrollTo(0, 1);
+              }
+
+            //   function login() {
+            //     var uname = document.getElementById("uname").value;
+            //     var pwd = document.getElementById("pwd").value;
+
+            //     if (uname == "admin" && pwd == "admin") {
+            //       alert("Login Success!");
+
+            //       window.location = "{{url_for('index')}}";
+            //       return false;
+            //     } else {
+            //       alert("Invalid Credentials!");
+            //     }
+            //   }
+            //
+            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+            import { initializeApp } from "firebase/app";
+            import { getAnalytics } from "firebase/analytics";
+
             const firebaseConfig = {
               apiKey: "AIzaSyDmkus00PV-fWybrMi_B1LSa4H09LL7_dE",
               authDomain: "yellow-rust-disease-detection.firebaseapp.com",
@@ -111,23 +136,11 @@
               storageBucket: "yellow-rust-disease-detection.appspot.com",
               messagingSenderId: "1072837844157",
               appId: "1:1072837844157:web:affd83d438228cd1426bd4",
-              measurementId: "G-1E72X6DP9C"
+              measurementId: "G-1E72X6DP9C",
             };
-          
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
-          </script>
-          <script>
-            addEventListener(
-              "load", function () {
-                setTimeout(hideURLbar, 0);
-              },
-              false
-            );
-            function hideURLbar() {
-              window.scrollTo(0, 1);
-            }
             function login() {
               const email = document.getElementById("uname").value;
               const password = document.getElementById("pwd").value;
@@ -174,20 +187,27 @@
         </head>
 
         <body id="page-top">
+          <!-- Portfolio Section -->
           <section class="page-section portfolio" id="portfolio">
+            <!-- Portfolio Section Heading -->
+
+            <!-- Icon Divider -->
+            <!-- Portfolio Grid Items -->
             <div class="row">
               <div class="section-header">
                 <h2></h2>
               </div>
               <div class="col-md-6 col-lg-4" style="margin-left: 370px">
                 <div class="control-group">
+                  <!-- Username -->
                   <br />
                   <br />
 
-                  
-                  
+                  <label class="control-label" for="username"
+                    ><b>Username</b></label
+                  >
                   <div class="controls">
-                    <label for="uname"><b>Username:</b></label>
+                    <label for="uname">Username:</label>
                     <input
                       type="text"
                       id="uname"
@@ -200,8 +220,11 @@
                 <br />
 
                 <div class="control-group">
+                  <label class="control-label" for="password"
+                    ><b>Password</b></label
+                  >
                   <div class="controls">
-                    <label for="pwd"><b>Password:</b></label>
+                    <label for="pwd">Password:</label>
                     <input
                       type="password"
                       id="pwd"
@@ -213,7 +236,10 @@
                 </div>
 
                 <div class="control-group">
+                  <!-- Button -->
+
                   <div class="controls">
+                    <br />
                     <br />
                     <input
                       type="button"
@@ -238,7 +264,8 @@
     >
       <div class="container"></div>
     </footer>
-    
+
+    <!-- loader -->
     <div id="loader" class="show fullscreen">
       <svg class="circular" width="48px" height="48px">
         <circle
